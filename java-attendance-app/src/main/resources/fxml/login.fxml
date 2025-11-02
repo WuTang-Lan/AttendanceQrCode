@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.irvr.attendance.controller.LoginController"
+      spacing="20" alignment="CENTER" style="-fx-background-color: linear-gradient(to bottom right, #667eea, #764ba2); -fx-padding: 40;">
+
+    <VBox spacing="20" alignment="CENTER" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 40;" maxWidth="400">
+        <Text text="IRVR Attendance System" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-fill: #333;"/>
+        <Text text="Login" style="-fx-font-size: 18; -fx-fill: #667eea;"/>
+        
+        <VBox spacing="10">
+            <Label text="Username:" style="-fx-font-weight: bold;"/>
+            <TextField fx:id="usernameField" promptText="Enter username" style="-fx-font-size: 14;"/>
+        </VBox>
+        
+        <VBox spacing="10">
+            <Label text="Password:" style="-fx-font-weight: bold;"/>
+            <PasswordField fx:id="passwordField" promptText="Enter password" style="-fx-font-size: 14;"/>
+        </VBox>
+        
+        <Button fx:id="loginButton" text="Login" onAction="#handleLogin" 
+                style="-fx-background-color: #667eea; -fx-text-fill: white; -fx-font-size: 14; -fx-padding: 10 40;" 
+                maxWidth="Infinity"/>
+        
+        <Label fx:id="statusLabel" text="" style="-fx-font-size: 12;"/>
+        
+        <HBox spacing="5" alignment="CENTER">
+            <Text text="Don't have an account?" style="-fx-font-size: 12;"/>
+            <Hyperlink fx:id="registerLink" text="Register here" onAction="#handleRegister" 
+                       style="-fx-font-size: 12; -fx-text-fill: #667eea;"/>
+        </HBox>
+        
+        <Separator/>
+        
+        <VBox spacing="5" style="-fx-padding: 10; -fx-background-color: #f0f0f0; -fx-background-radius: 5;">
+            <Text text="Demo Accounts:" style="-fx-font-size: 12; -fx-font-weight: bold;"/>
+            <Text text="Lecturer: lecturer1 / pass123" style="-fx-font-size: 11;"/>
+            <Text text="Student: student1 / pass123" style="-fx-font-size: 11;"/>
+            <Text text="Student: student2 / pass123" style="-fx-font-size: 11;"/>
+        </VBox>
+    </VBox>
+</VBox>

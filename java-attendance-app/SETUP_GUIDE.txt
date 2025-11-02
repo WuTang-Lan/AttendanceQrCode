@@ -1,0 +1,145 @@
+╔═══════════════════════════════════════════════════════════════════╗
+║     IRVR ATTENDANCE SYSTEM - QUICK SETUP GUIDE                    ║
+║     Java Desktop Application with XAMPP MySQL                     ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+STEP 1: INSTALL PREREQUISITES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ Java JDK 17 or higher
+  Download: https://www.oracle.com/java/technologies/downloads/
+
+✓ IntelliJ IDEA (Community or Ultimate)
+  Download: https://www.jetbrains.com/idea/download/
+
+✓ XAMPP (for MySQL database)
+  Download: https://www.apachefriends.org/
+
+
+STEP 2: START XAMPP MYSQL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Open XAMPP Control Panel
+2. Click "Start" next to Apache
+3. Click "Start" next to MySQL
+4. Wait for both to show "Running" status
+
+
+STEP 3: CREATE DATABASE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Open browser and go to: http://localhost/phpmyadmin
+2. Click "SQL" tab at the top
+3. Open the file: database/schema.sql in a text editor
+4. Copy the ENTIRE content of schema.sql
+5. Paste into phpMyAdmin SQL window
+6. Click "Go" button to execute
+7. You should see: "attendance_db" in the left sidebar
+
+
+STEP 4: OPEN PROJECT IN INTELLIJ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Open IntelliJ IDEA
+2. Click: File → Open
+3. Navigate to this "java-attendance-app" folder
+4. Select the folder and click OK
+5. IntelliJ will detect Maven project
+6. Wait for dependencies to download (bottom-right progress bar)
+7. If prompted, click "Trust Project"
+
+
+STEP 5: RUN THE APPLICATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+METHOD 1 (Easiest):
+1. In IntelliJ, navigate to: src/main/java/com/irvr/attendance/Main.java
+2. Right-click anywhere in Main.java
+3. Select "Run 'Main.main()'"
+4. Application window should appear!
+
+METHOD 2 (Maven):
+1. Open Terminal in IntelliJ (bottom toolbar)
+2. Type: mvn clean javafx:run
+3. Press Enter
+
+
+TESTING THE APPLICATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Demo Accounts (already in database):
+
+Lecturer Account:
+  Username: lecturer1
+  Password: pass123
+
+Student Accounts:
+  Username: student1
+  Password: pass123
+  
+  Username: student2
+  Password: pass123
+
+
+HOW TO USE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+FOR LECTURERS:
+1. Login with lecturer1 / pass123
+2. Enter a course name (e.g., "Computer Science 101")
+3. Click "Start New Session"
+4. A QR code appears - display on projector/screen
+5. QR code auto-refreshes every 5 minutes
+6. View attendance records in real-time
+7. Click "Stop Session" when class ends
+
+FOR STUDENTS:
+1. Login with student1 / pass123 (or student2 / pass123)
+2. Scan lecturer's QR code with your phone
+3. Copy the session code from the QR
+4. Enter session code in the text field
+5. Click "Mark Attendance"
+6. View your attendance history below
+
+
+TROUBLESHOOTING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+❌ "Cannot connect to database"
+→ Make sure XAMPP MySQL is running
+→ Check if attendance_db exists in phpMyAdmin
+→ Run database/schema.sql if database is missing
+
+❌ "Maven dependencies not downloading"
+→ Right-click pom.xml → Maven → Reload Project
+→ Check internet connection
+
+❌ "JavaFX runtime components missing"
+→ Use: mvn clean javafx:run
+→ Or configure JavaFX in IntelliJ Run Configuration
+
+❌ "Port 3306 already in use"
+→ Stop other MySQL services
+→ Or change port in database.properties
+
+
+KEY FEATURES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Auto-refreshing IRVR codes (5-minute expiration)
+✅ Real-time attendance tracking
+✅ Student self-registration
+✅ Fraud prevention (one mark per session)
+✅ MySQL database storage
+✅ Time-sensitive validation
+✅ Session management
+
+
+NEED HELP?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+See README.md for detailed documentation
+Check database/schema.sql for database structure
+Verify XAMPP MySQL is running before starting app
+
+═══════════════════════════════════════════════════════════════════════
