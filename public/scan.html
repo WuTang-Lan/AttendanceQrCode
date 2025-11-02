@@ -3,21 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mark Attendance</title>
+    <title>Mark Attendance - IRVR</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="container">
         <div class="card">
             <h1>Mark Your Attendance</h1>
+            <p style="text-align: center; color: #666;">Enter your Student ID to mark attendance</p>
             <form id="scanForm">
+                <input type="hidden" id="sessionCode" name="sessionCode">
                 <div class="form-group">
-                    <label for="studentId">Enter Your Student ID:</label>
-                    <input type="text" id="studentId" name="studentId" placeholder="e.g., student1" required>
+                    <label for="studentId">Student ID:</label>
+                    <input type="text" id="studentId" name="studentId" placeholder="e.g., student1" required autofocus>
                 </div>
                 <button type="submit" class="btn">Submit Attendance</button>
                 <div id="result" class="status"></div>
             </form>
+            <div class="info" style="margin-top: 20px;">
+                <p><strong>Note:</strong> This session code is time-sensitive and will expire in 5 minutes.</p>
+            </div>
         </div>
     </div>
     <script src="js/scan.js"></script>

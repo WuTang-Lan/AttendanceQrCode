@@ -1,3 +1,13 @@
+const urlParams = new URLSearchParams(window.location.search);
+const sessionCode = urlParams.get('code');
+
+if (!sessionCode) {
+    document.getElementById('result').textContent = '❌ Invalid session code';
+    document.getElementById('result').className = 'status error';
+}
+
+document.getElementById('sessionCode').value = sessionCode;
+
 document.getElementById('scanForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -8,7 +18,7 @@ document.getElementById('scanForm').addEventListener('submit', async (e) => {
         const response = await fetch('/api/mark-attendance', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ studentId })
+            body: JSON.stringify({ studentId, sessionCode })
         });
         
         const data = await response.json();
