@@ -45,6 +45,30 @@ function initializeDatabase() {
 
 initializeDatabase();
 
+app.post('/api/register', (req, res) => {
+    const { username, password, role } = req.body;
+    
+    if (!username || !password || !role) {
+        return res.json({ success: false, message: 'All fields are required' });
+    }
+    
+    if (role !== 'student' && role !== 'lecturer') {
+        return res.json({ success: false, message: 'Invalid role. Choose student or lecturer.' });
+    }
+    
+    try {
+        const insert = db.prepare('INSERT INTO users (username, password, role) VALUES (?, ?, ?)');
+        insert.run(username, password, role);
+        res.json({ success: true, message: 'Registration successful! You can now login.' });
+    } catch (error) {
+        if (error.message.includes('UNIQUE constraint failed')) {
+            res.json({ success: false, message: 'Username already exists. Please choose another.' });
+        } else {
+            res.json({ success: false, message: 'Registration failed. Please try again.' });
+        }
+    }
+});
+
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
     const user = db.prepare('SELECT role FROM users WHERE username = ? AND password = ?')
