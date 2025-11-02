@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecturer Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Lecturer Dashboard</h1>
+            <h2>QR Attendance Code</h2>
+            <p>Students can scan this QR code to mark their attendance:</p>
+            <div id="qrContainer" class="qr-container">
+                <img id="qrCode" alt="QR Code" />
+            </div>
+            <button onclick="location.reload()" class="btn">Refresh QR Code</button>
+            
+            <h3>Recent Attendance Records</h3>
+            <div id="attendanceList" class="attendance-list"></div>
+            
+            <button onclick="window.location.href='/'" class="btn btn-secondary">Logout</button>
+        </div>
+    </div>
+    <script src="js/lecturer.js"></script>
+</body>
+</html>

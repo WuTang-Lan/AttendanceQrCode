@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Attendance</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Mark Your Attendance</h1>
+            <form id="scanForm">
+                <div class="form-group">
+                    <label for="studentId">Enter Your Student ID:</label>
+                    <input type="text" id="studentId" name="studentId" placeholder="e.g., student1" required>
+                </div>
+                <button type="submit" class="btn">Submit Attendance</button>
+                <div id="result" class="status"></div>
+            </form>
+        </div>
+    </div>
+    <script src="js/scan.js"></script>
+</body>
+</html>

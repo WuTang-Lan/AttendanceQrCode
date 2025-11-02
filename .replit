@@ -1,4 +1,4 @@
-modules = ["java-graalvm22.3"]
+modules = ["java-graalvm22.3", "nodejs-20"]
 [agent]
 expertMode = true
 
@@ -15,15 +15,28 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "JavaFX Attendance App"
+args = "Attendance Web App"
 
 [[workflows.workflow]]
-name = "JavaFX Attendance App"
+name = "Attendance Web App"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "mvn compile exec:java -Dexec.mainClass=\"com.example.attendance.LoginScreen\""
+args = "npm start"
+waitForPort = 5000
 
 [workflows.workflow.metadata]
-outputType = "vnc"
+outputType = "webview"
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[[ports]]
+localPort = 35259
+externalPort = 3000
+
+[deployment]
+deploymentTarget = "vm"
+run = ["node", "server.js"]
