@@ -3,16 +3,58 @@ package com.example.attendance;
 import java.sql.*;
 
 public class DatabaseManager {
-    private static final String URL = "jdbc:mysql://localhost:3306/attendance_db?useSSL=false";
-    private static final String USER = "root";
-    private static final String PASSWORD = ""; // XAMPP default
+    private static final String URL = "jdbc:sqlite:attendance.db";
+
+    static {
+        initializeDatabase();
+    }
 
     public static Connection connect() {
         try {
-            return DriverManager.getConnection(URL, USER, PASSWORD);
+            return DriverManager.getConnection(URL);
         } catch (SQLException e) {
             System.out.println("❌ Database connection failed: " + e.getMessage());
             return null;
+        }
+    }
+
+    private static void initializeDatabase() {
+        try (Connection conn = DriverManager.getConnection(URL);
+             Statement stmt = conn.createStatement()) {
+            
+            String createUsersTable = "CREATE TABLE IF NOT EXISTS users (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "username TEXT UNIQUE NOT NULL," +
+                    "password TEXT NOT NULL," +
+                    "role TEXT NOT NULL" +
+                    ")";
+            
+            String createAttendanceTable = "CREATE TABLE IF NOT EXISTS attendance (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "student_id TEXT NOT NULL," +
+                    "student_name TEXT NOT NULL," +
+                    "session_id TEXT NOT NULL," +
+                    "time_marked DATETIME DEFAULT CURRENT_TIMESTAMP" +
+                    ")";
+            
+            stmt.execute(createUsersTable);
+            stmt.execute(createAttendanceTable);
+            
+            String checkUsers = "SELECT COUNT(*) as count FROM users";
+            ResultSet rs = stmt.executeQuery(checkUsers);
+            if (rs.next() && rs.getInt("count") == 0) {
+                String insertSampleUsers = "INSERT INTO users (username, password, role) VALUES " +
+                        "('lecturer1', 'pass123', 'lecturer')," +
+                        "('student1', 'pass123', 'student')," +
+                        "('student2', 'pass123', 'student')";
+                stmt.execute(insertSampleUsers);
+                System.out.println("✅ Sample users created (lecturer1/pass123, student1/pass123, student2/pass123)");
+            }
+            
+            System.out.println("✅ Database initialized successfully");
+        } catch (SQLException e) {
+            System.out.println("❌ Database initialization failed: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
