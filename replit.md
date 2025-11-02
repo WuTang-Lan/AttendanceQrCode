@@ -108,20 +108,24 @@ Allow lecturers to track student attendance using dynamic IRVR codes (QR-based) 
 
 ## Key IRVR Features
 
-### Time-Sensitive Validation
-- Each session code expires after 5 minutes
+### Auto-Refreshing Time-Sensitive Codes
+- Each IRVR code expires after 5 minutes and **automatically generates a new code**
+- Frontend polls every 3 seconds to detect and display new codes without manual intervention
+- Session remains active until lecturer manually stops it
 - Prevents students from sharing codes outside of class time
-- Automatic session expiration and cleanup
+- No need to restart sessions - codes refresh seamlessly during active class
 
 ### Session Management
 - Unique crypto-generated session codes per class
 - Lecturers can start/stop sessions with course names
+- All attendance marks during a session are linked to the same session ID
 - Students cannot mark attendance for expired sessions
 
 ### Fraud Prevention
 - One attendance mark per student per session (database constraint)
 - Time validation ensures codes are only valid during active class
-- Session-specific codes prevent code reuse
+- Session-specific codes prevent code reuse across different classes
+- Auto-refresh prevents code sharing outside the 5-minute window
 
 ### Student Transparency
 - Students can view their complete attendance history
@@ -174,12 +178,13 @@ Configured for Replit's VM (Always-On) deployment. Using VM instead of autoscale
 - VM deployment ensures the SQLite database file remains consistent
 
 ## Implemented IRVR Features ✅
-- ✅ Dynamic time-sensitive codes (5-minute expiration)
-- ✅ Unique session management per class
+- ✅ **Auto-refreshing dynamic codes** (codes expire every 5 minutes and regenerate automatically)
+- ✅ **Seamless code rotation** (frontend detects and displays new codes without manual restart)
+- ✅ Unique session management per class (all attendance tied to same session)
 - ✅ Student registration system
 - ✅ Student attendance viewing
-- ✅ Fraud prevention (one mark per session, time validation)
-- ✅ Lecturer session control (start/stop)
+- ✅ Fraud prevention (one mark per session, time validation, session-specific codes)
+- ✅ Lecturer session control (start/stop sessions manually)
 - ✅ Real-time attendance tracking
 - ✅ Secure session token generation (crypto)
 
