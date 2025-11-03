@@ -16,9 +16,10 @@ A JavaFX desktop application for Interactive Real-time Verifiable Response (IRVR
 
 ## Prerequisites
 
-### 1. Java Development Kit (JDK) 17
-- Download and install JDK 17 or higher
+### 1. Java Development Kit (JDK) 11
+- Download and install JDK 11 or higher
 - Verify installation: `java -version`
+- **Recommended**: Oracle JDK 11 or OpenJDK 11
 
 ### 2. IntelliJ IDEA
 - Download IntelliJ IDEA (Community or Ultimate Edition)

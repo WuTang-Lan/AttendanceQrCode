@@ -1,21 +1,26 @@
 # IRVR Attendance System
 
 ## Overview
-A modern web-based Interactive Real-time Verifiable Response (IRVR) attendance tracking system. This application implements time-sensitive, dynamic codes to prevent attendance fraud and ensure only physically present students can mark attendance.
+A Java JavaFX desktop application for Interactive Real-time Verifiable Response (IRVR) attendance tracking. This application implements time-sensitive, dynamic codes to prevent attendance fraud and ensure only physically present students can mark attendance.
+
+**UI Technology:** HTML/CSS/JavaScript (easier to understand than FXML!)  
+**Target Platform:** Desktop application for Windows, macOS, and Linux  
+**Database:** XAMPP MySQL for local deployment
 
 ## Purpose
 Allow lecturers to track student attendance using dynamic IRVR codes (QR-based) that expire and refresh automatically. The system prevents proxy attendance through time-sensitive validation and session management.
 
 ## Current State
-- Fully functional IRVR-based web application running on Node.js/Express
-- Dynamic time-sensitive codes (5-minute expiration)
-- Session management with unique session codes
-- Student registration and authentication
-- Student attendance viewing capability
-- Lecturer session control (start/stop)
-- SQLite database for data persistence
-- Modern, responsive web interface
+- Complete Java JavaFX desktop application (JDK 11 compatible)
+- HTML-based UI with JavaFX WebView (easy to understand and customize!)
+- Dynamic time-sensitive IRVR codes (5-minute expiration with auto-refresh)
+- Session management with unique crypto-generated session codes
+- Student and lecturer registration system
+- MySQL database integration (XAMPP compatible)
+- QR code generation with ZXing library
+- Maven project structure for IntelliJ IDEA
 - Real-time attendance tracking and validation
+- Fraud prevention with time validation
 
 ## ⚠️ IMPORTANT SECURITY NOTICE
 **This is a demonstration/learning project. The current implementation has known security limitations:**
@@ -35,47 +40,47 @@ Allow lecturers to track student attendance using dynamic IRVR codes (QR-based) 
 
 **This version preserves the original GitHub project's demo functionality while converting it to a web format.**
 
-## Recent Changes (November 2, 2025)
-- Rebuilt entire system from JavaFX desktop app to web application
-- Implemented IRVR (Interactive Real-time Verifiable Response) code system
-- Added dynamic time-sensitive codes with 5-minute expiration
-- Implemented session management with unique session IDs per class
-- Added student registration functionality for both students and lecturers
-- Created student attendance viewing page
-- Added lecturer session control (start/stop sessions)
-- Implemented time validation to prevent expired code scanning
-- Migrated from MySQL to SQLite database
-- Created Express.js backend with comprehensive REST API
-- Built responsive HTML/CSS/JS frontend
-- Set up deployment configuration for VM (Always-On)
+## Recent Changes (November 3, 2025)
+- **Updated to JDK 11** for better compatibility
+- **Converted UI to HTML/CSS/JavaScript** (much easier to understand than FXML!)
+- Created JavaFX WebView-based architecture with JavaScript bridge
+- Complete Java Maven project for IntelliJ IDEA
+- MySQL database integration for XAMPP
+- Auto-refreshing IRVR codes with 5-minute expiration
+- Session management with crypto-generated unique session IDs
+- Student and lecturer registration with authentication
+- QR code generation using ZXing library
+- Time validation to prevent expired code usage
+- Fraud prevention (one mark per session, session-specific codes)
+- Comprehensive documentation for local deployment
 
 ## Project Architecture
 
-### Backend (Node.js/Express)
-- **server.js**: Main Express server
-  - User authentication (login/registration)
-  - Session management (start/stop/validate)
-  - Dynamic IRVR code generation with crypto tokens
-  - Time-sensitive attendance marking with validation
-  - Student-specific and lecturer-specific attendance queries
-  - SQLite database integration
-  - Serves static frontend files
+### Java Application (JavaFX Desktop)
+Located in: **`java-attendance-app/`** folder
 
-### Database (SQLite)
+#### Backend (Java)
+- **Main.java**: Application entry point
+- **Models** (User, Session, Attendance): Data structures
+- **DAOs** (UserDAO, SessionDAO, AttendanceDAO): Database operations
+- **Services** (SessionService): Business logic for IRVR sessions
+- **Views** (LoginView, RegisterView, LecturerView, StudentView): WebView-based UI controllers
+- **DatabaseConnection**: MySQL JDBC connection manager
+- **QRCodeGenerator**: QR code generation utility using ZXing
+
+#### Database (MySQL via XAMPP)
 - **Tables**:
   - `users`: Stores user accounts (lecturers and students)
   - `sessions`: Manages active IRVR sessions with expiration times
-  - `attendance`: Records attendance entries with session codes and timestamps (prevents duplicate marking per session)
+  - `attendance`: Records attendance entries (prevents duplicate marking per session)
 
-### Frontend (HTML/CSS/JS)
-- **public/index.html**: Login page with registration link
-- **public/register.html**: Registration page for students and lecturers
-- **public/lecturer.html**: Lecturer dashboard with session control and dynamic IRVR code
-- **public/student.html**: Student dashboard with attendance viewing access
-- **public/student-attendance.html**: Student's personal attendance records
-- **public/scan.html**: Attendance marking page (accessed via IRVR code scan)
-- **public/css/style.css**: Modern, responsive styling
-- **public/js/**: Client-side JavaScript for real-time interactivity and validation
+#### Frontend (HTML/CSS/JavaScript)
+Renders inside JavaFX WebView:
+- **login.html**: Login page with embedded CSS/JS
+- **register.html**: Registration page for students and lecturers
+- **lecturer.html**: Lecturer dashboard with auto-refreshing QR codes
+- **student.html**: Student attendance marking and history viewing
+- **JavaScript Bridge**: Connects HTML to Java backend methods
 
 ## Demo Accounts
 - **Lecturer**: lecturer1 / pass123

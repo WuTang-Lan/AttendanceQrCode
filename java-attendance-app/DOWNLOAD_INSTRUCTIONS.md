@@ -93,4 +93,4 @@ Once downloaded, see **SETUP_GUIDE.txt** for complete setup instructions!
 **Need Help?**
 - Check README.md for detailed documentation
 - See SETUP_GUIDE.txt for step-by-step instructions
-- Ensure Java JDK 17, IntelliJ IDEA, and XAMPP are installed
+- Ensure Java JDK 11, IntelliJ IDEA, and XAMPP are installed

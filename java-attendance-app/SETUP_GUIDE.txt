@@ -6,8 +6,9 @@
 STEP 1: INSTALL PREREQUISITES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-✓ Java JDK 17 or higher
+✓ Java JDK 11 or higher
   Download: https://www.oracle.com/java/technologies/downloads/
+  Recommended: Oracle JDK 11 or OpenJDK 11
 
 ✓ IntelliJ IDEA (Community or Ultimate)
   Download: https://www.jetbrains.com/idea/download/

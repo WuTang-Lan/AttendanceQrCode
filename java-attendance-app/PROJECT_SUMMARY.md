@@ -7,18 +7,26 @@ I've created a complete Java JavaFX desktop application with all the IRVR (Inter
 ## 📦 What's Included
 
 ### Project Statistics:
-- **14 Java source files** (Models, DAOs, Services, Controllers)
-- **4 JavaFX FXML UI files** (Login, Register, Lecturer, Student screens)
+- **14 Java source files** (Models, DAOs, Services, Views)
+- **4 HTML UI pages** (Login, Register, Lecturer, Student screens)
 - **1 SQL database schema** with demo data
 - **Maven configuration** (pom.xml) with all dependencies
 - **Complete documentation** (README, Setup Guide, Download Instructions)
 
 ### Technologies Used:
-- ✅ **Java 17** - Target JDK version
-- ✅ **JavaFX 17.0.2** - Desktop UI framework
+- ✅ **Java 11** - Target JDK version
+- ✅ **JavaFX 11.0.2** - Desktop UI framework with WebView
+- ✅ **HTML/CSS/JavaScript** - Easy-to-understand UI (no FXML!)
 - ✅ **MySQL JDBC 8.0.33** - Database connector for XAMPP
 - ✅ **ZXing 3.5.1** - QR code generation library
 - ✅ **Maven** - Build and dependency management
+
+### UI Architecture:
+**💡 HTML-Based Interface (Easy to Understand!):**
+- UI built with **HTML, CSS, and JavaScript** instead of FXML
+- JavaFX WebView renders HTML pages
+- JavaScript Bridge connects HTML to Java code
+- Much easier to read and customize than FXML!
 
 ## 🎯 IRVR Features Implemented
 
@@ -71,16 +79,16 @@ java-attendance-app/
     │   ├── model/                          # Data models (User, Session, Attendance)
     │   ├── dao/                            # Database access (UserDAO, SessionDAO, AttendanceDAO)
     │   ├── service/                        # Business logic (SessionService)
-    │   ├── controller/                     # UI controllers (Login, Register, Lecturer, Student)
+    │   ├── view/                           # View classes with WebView (Login, Register, Lecturer, Student)
     │   ├── database/                       # Database connection manager
     │   └── util/                           # QR code generator
     └── resources/
         ├── database.properties             # MySQL connection config
-        └── fxml/                           # JavaFX UI files
-            ├── login.fxml
-            ├── register.fxml
-            ├── lecturer.fxml
-            └── student.fxml
+        └── html/                           # HTML UI files (easy to understand!)
+            ├── login.html                  # Login page (HTML/CSS/JS)
+            ├── register.html               # Register page (HTML/CSS/JS)
+            ├── lecturer.html               # Lecturer dashboard (HTML/CSS/JS)
+            └── student.html                # Student dashboard (HTML/CSS/JS)
 ```
 
 ## 🚀 How to Download and Run
