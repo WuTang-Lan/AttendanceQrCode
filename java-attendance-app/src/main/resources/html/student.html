@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard - IRVR Attendance</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 20px;
+            color: #333;
+        }
+        
+        .logout-btn {
+            padding: 10px 20px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+        
+        .mark-attendance {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .mark-attendance h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .mark-attendance p {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .controls input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .controls button {
+            padding: 12px 25px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .controls button:hover {
+            background: #5568d3;
+        }
+        
+        .status {
+            padding: 12px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+            margin-bottom: 15px;
+        }
+        
+        .status.error {
+            background: #fee;
+            color: #c00;
+            display: block;
+        }
+        
+        .status.success {
+            background: #efe;
+            color: #060;
+            display: block;
+        }
+        
+        .info-box {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+        
+        .info-box h3 {
+            font-size: 13px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .info-box p {
+            margin: 5px 0;
+            color: #555;
+        }
+        
+        .info-box .warning {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .attendance-history {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .attendance-history h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .no-data {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 id="welcomeText">Welcome, Student</h1>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+    
+    <div class="mark-attendance">
+        <h2>Mark Attendance</h2>
+        <p>Enter the session code from your lecturer's IRVR code</p>
+        
+        <div class="controls">
+            <input type="text" id="sessionCode" placeholder="Enter session code">
+            <button onclick="markAttendance()">Mark Attendance</button>
+        </div>
+        
+        <div id="status" class="status"></div>
+        
+        <div class="info-box">
+            <h3>📱 How to mark attendance:</h3>
+            <p>1. Scan the IRVR code displayed by your lecturer</p>
+            <p>2. Enter the session code shown in the QR code</p>
+            <p>3. Click 'Mark Attendance' to submit</p>
+            <p class="warning">Note: Codes expire after 5 minutes for security</p>
+        </div>
+    </div>
+    
+    <div class="attendance-history">
+        <h2>My Attendance History</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Course</th>
+                    <th>Time Marked</th>
+                </tr>
+            </thead>
+            <tbody id="attendanceTable">
+                <tr>
+                    <td colspan="2" class="no-data">No attendance records yet</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <script>
+        function markAttendance() {
+            var sessionCode = document.getElementById('sessionCode').value.trim();
+            
+            if (!sessionCode) {
+                showStatus('Please enter session code', 'error');
+                return;
+            }
+            
+            if (window.javaApp) {
+                window.javaApp.markAttendance(sessionCode);
+            }
+        }
+        
+        function logout() {
+            if (window.javaApp) {
+                window.javaApp.logout();
+            }
+        }
+        
+        function showStatus(message, type) {
+            var statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = 'status ' + type;
+            
+            setTimeout(function() {
+                statusDiv.className = 'status';
+            }, 5000);
+        }
+        
+        function clearSessionCode() {
+            document.getElementById('sessionCode').value = '';
+        }
+        
+        function updateAttendanceTable(records) {
+            var tbody = document.getElementById('attendanceTable');
+            
+            if (records.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="2" class="no-data">No attendance records yet</td></tr>';
+                return;
+            }
+            
+            var html = '';
+            for (var i = 0; i < records.length; i++) {
+                html += '<tr>';
+                html += '<td>' + records[i].courseName + '</td>';
+                html += '<td>' + records[i].timeMarked + '</td>';
+                html += '</tr>';
+            }
+            tbody.innerHTML = html;
+        }
+        
+        function setWelcomeText(username) {
+            document.getElementById('welcomeText').textContent = 'Welcome, ' + username + ' (Student)';
+        }
+        
+        // Auto-refresh attendance history
+        setInterval(function() {
+            if (window.javaApp) {
+                window.javaApp.refreshAttendance();
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

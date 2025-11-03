@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Login - IRVR Attendance System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        h2 {
+            font-size: 18px;
+            color: #667eea;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #5568d3;
+        }
+        
+        .status {
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .status.error {
+            background: #fee;
+            color: #c00;
+            display: block;
+        }
+        
+        .status.success {
+            background: #efe;
+            color: #060;
+            display: block;
+        }
+        
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+        
+        .register-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .demo-accounts {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .demo-accounts h3 {
+            font-size: 13px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .demo-accounts p {
+            font-size: 11px;
+            margin: 5px 0;
+            color: #666;
+        }
+        
+        hr {
+            margin: 20px 0;
+            border: none;
+            border-top: 1px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>IRVR Attendance System</h1>
+        <h2>Login</h2>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" placeholder="Enter username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" placeholder="Enter password" required>
+            </div>
+            
+            <button type="submit">Login</button>
+        </form>
+        
+        <div id="status" class="status"></div>
+        
+        <div class="register-link">
+            Don't have an account? <a href="#" id="registerLink">Register here</a>
+        </div>
+        
+        <hr>
+        
+        <div class="demo-accounts">
+            <h3>Demo Accounts:</h3>
+            <p>Lecturer: lecturer1 / pass123</p>
+            <p>Student: student1 / pass123</p>
+            <p>Student: student2 / pass123</p>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            var username = document.getElementById('username').value.trim();
+            var password = document.getElementById('password').value;
+            
+            if (!username || !password) {
+                showStatus('Please enter username and password', 'error');
+                return;
+            }
+            
+            // Call Java method via bridge
+            if (window.javaApp) {
+                window.javaApp.login(username, password);
+            }
+        });
+        
+        document.getElementById('registerLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (window.javaApp) {
+                window.javaApp.goToRegister();
+            }
+        });
+        
+        function showStatus(message, type) {
+            var statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = 'status ' + type;
+        }
+        
+        function clearForm() {
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Lecturer Dashboard - IRVR Attendance</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 20px;
+            color: #333;
+        }
+        
+        .logout-btn {
+            padding: 10px 20px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+        
+        .session-control {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .session-control h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .session-status {
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .session-status.active {
+            color: #27ae60;
+        }
+        
+        .session-status.inactive {
+            color: #95a5a6;
+        }
+        
+        .timer {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .timer.warning {
+            color: #e74c3c;
+        }
+        
+        .timer.ok {
+            color: #27ae60;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .controls input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .controls button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+        }
+        
+        .start-btn {
+            background: #27ae60;
+        }
+        
+        .start-btn:hover {
+            background: #229954;
+        }
+        
+        .stop-btn {
+            background: #e74c3c;
+        }
+        
+        .stop-btn:hover {
+            background: #c0392b;
+        }
+        
+        .qr-section {
+            text-align: center;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .qr-section.visible {
+            display: block;
+        }
+        
+        .qr-section h3 {
+            font-size: 15px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .qr-section img {
+            width: 300px;
+            height: 300px;
+            border: 3px solid #667eea;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        
+        .qr-info {
+            font-size: 12px;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .attendance-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .attendance-section h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .no-data {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 id="welcomeText">Welcome, Lecturer</h1>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+    
+    <div class="session-control">
+        <h2>Session Control</h2>
+        <div id="sessionStatus" class="session-status inactive">No active session</div>
+        <div id="timer" class="timer"></div>
+        
+        <div class="controls">
+            <input type="text" id="courseName" placeholder="e.g., Computer Science 101">
+            <button id="startBtn" class="start-btn" onclick="startSession()">Start New Session</button>
+            <button id="stopBtn" class="stop-btn" onclick="stopSession()" style="display: none;">Stop Session</button>
+        </div>
+        
+        <div id="qrSection" class="qr-section">
+            <h3>IRVR Code - Display for Students to Scan</h3>
+            <img id="qrImage" src="" alt="QR Code">
+            <div class="qr-info">
+                Auto-refreshing code: Expires every 5 minutes and automatically generates a new one.
+            </div>
+        </div>
+    </div>
+    
+    <div class="attendance-section">
+        <h2>Attendance Records</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Course</th>
+                    <th>Time Marked</th>
+                </tr>
+            </thead>
+            <tbody id="attendanceTable">
+                <tr>
+                    <td colspan="3" class="no-data">No attendance records yet</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <script>
+        var refreshInterval = null;
+        
+        function startSession() {
+            var courseName = document.getElementById('courseName').value.trim();
+            if (!courseName) {
+                alert('Please enter a course name');
+                return;
+            }
+            
+            if (window.javaApp) {
+                window.javaApp.startSession(courseName);
+            }
+        }
+        
+        function stopSession() {
+            if (window.javaApp) {
+                window.javaApp.stopSession();
+            }
+            clearInterval(refreshInterval);
+            refreshInterval = null;
+        }
+        
+        function logout() {
+            clearInterval(refreshInterval);
+            if (window.javaApp) {
+                window.javaApp.logout();
+            }
+        }
+        
+        function updateUI(sessionData) {
+            if (sessionData.active) {
+                document.getElementById('sessionStatus').textContent = 'Active Session: ' + sessionData.courseName;
+                document.getElementById('sessionStatus').className = 'session-status active';
+                document.getElementById('startBtn').style.display = 'none';
+                document.getElementById('stopBtn').style.display = 'inline-block';
+                document.getElementById('qrSection').className = 'qr-section visible';
+                
+                if (!refreshInterval) {
+                    startAutoRefresh();
+                }
+            } else {
+                document.getElementById('sessionStatus').textContent = 'No active session';
+                document.getElementById('sessionStatus').className = 'session-status inactive';
+                document.getElementById('startBtn').style.display = 'inline-block';
+                document.getElementById('stopBtn').style.display = 'none';
+                document.getElementById('qrSection').className = 'qr-section';
+                document.getElementById('timer').textContent = '';
+            }
+        }
+        
+        function updateQRCode(base64Image) {
+            document.getElementById('qrImage').src = 'data:image/png;base64,' + base64Image;
+        }
+        
+        function updateTimer(secondsRemaining) {
+            var minutes = Math.floor(secondsRemaining / 60);
+            var seconds = secondsRemaining % 60;
+            var timerDiv = document.getElementById('timer');
+            
+            timerDiv.textContent = 'Code expires in: ' + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+            timerDiv.className = 'timer ' + (minutes < 1 ? 'warning' : 'ok');
+        }
+        
+        function updateAttendanceTable(records) {
+            var tbody = document.getElementById('attendanceTable');
+            
+            if (records.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="no-data">No attendance records yet</td></tr>';
+                return;
+            }
+            
+            var html = '';
+            for (var i = 0; i < records.length; i++) {
+                html += '<tr>';
+                html += '<td>' + records[i].studentName + '</td>';
+                html += '<td>' + records[i].courseName + '</td>';
+                html += '<td>' + records[i].timeMarked + '</td>';
+                html += '</tr>';
+            }
+            tbody.innerHTML = html;
+        }
+        
+        function startAutoRefresh() {
+            refreshInterval = setInterval(function() {
+                if (window.javaApp) {
+                    window.javaApp.refreshSession();
+                }
+            }, 3000);
+        }
+        
+        function setWelcomeText(username) {
+            document.getElementById('welcomeText').textContent = 'Welcome, ' + username + ' (Lecturer)';
+        }
+    </script>
+</body>
+</html>

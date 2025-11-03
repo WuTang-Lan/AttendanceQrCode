@@ -1,8 +1,8 @@
 package com.irvr.attendance;
 
 import com.irvr.attendance.database.DatabaseConnection;
+import com.irvr.attendance.view.LoginView;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -18,8 +18,8 @@ public class Main extends Application {
             return;
         }
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
-        Scene scene = new Scene(loader.load(), 600, 500);
+        LoginView loginView = new LoginView(primaryStage);
+        Scene scene = new Scene(loginView.getView(), 600, 500);
         
         primaryStage.setTitle("IRVR Attendance System");
         primaryStage.setScene(scene);
