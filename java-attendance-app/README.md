@@ -3,6 +3,8 @@
 ## Overview
 A JavaFX desktop application for Interactive Real-time Verifiable Response (IRVR) attendance tracking. This system implements time-sensitive, dynamic QR codes that automatically refresh to prevent attendance fraud.
 
+**💡 Easy-to-Understand UI:** The user interface is built with **HTML, CSS, and JavaScript** instead of FXML, making it much easier to understand and modify. JavaFX WebView renders the HTML pages, and JavaScript communicates with Java code through a simple bridge.
+
 ## Features
 ✅ **Auto-refreshing IRVR Codes** - Codes expire every 5 minutes and regenerate automatically  
 ✅ **Session Management** - Lecturers can start/stop sessions with unique session IDs  
@@ -10,6 +12,7 @@ A JavaFX desktop application for Interactive Real-time Verifiable Response (IRVR
 ✅ **Attendance Tracking** - Real-time attendance viewing and history  
 ✅ **Fraud Prevention** - One mark per session, time validation, session-specific codes  
 ✅ **MySQL Database** - Stores data in XAMPP MySQL database  
+✅ **HTML-Based UI** - Easy to understand and customize HTML/CSS/JavaScript interface  
 
 ## Prerequisites
 
@@ -144,24 +147,41 @@ java-attendance-app/
 │       │   │   └── AttendanceDAO.java      # Attendance database operations
 │       │   ├── service/
 │       │   │   └── SessionService.java     # Business logic for sessions
-│       │   ├── controller/
-│       │   │   ├── LoginController.java    # Login screen controller
-│       │   │   ├── RegisterController.java # Registration screen
-│       │   │   ├── LecturerController.java # Lecturer dashboard
-│       │   │   └── StudentController.java  # Student dashboard
+│       │   ├── view/
+│       │   │   ├── LoginView.java          # Login screen with WebView
+│       │   │   ├── RegisterView.java       # Registration screen with WebView
+│       │   │   ├── LecturerView.java       # Lecturer dashboard with WebView
+│       │   │   └── StudentView.java        # Student dashboard with WebView
 │       │   ├── database/
 │       │   │   └── DatabaseConnection.java # MySQL connection manager
 │       │   └── util/
 │       │       └── QRCodeGenerator.java    # QR code generation utility
 │       └── resources/
 │           ├── database.properties         # Database configuration
-│           └── fxml/
-│               ├── login.fxml              # Login screen UI
-│               ├── register.fxml           # Registration screen UI
-│               ├── lecturer.fxml           # Lecturer dashboard UI
-│               └── student.fxml            # Student dashboard UI
+│           └── html/                       # HTML UI files (easy to understand!)
+│               ├── login.html              # Login screen (HTML/CSS/JS)
+│               ├── register.html           # Registration screen (HTML/CSS/JS)
+│               ├── lecturer.html           # Lecturer dashboard (HTML/CSS/JS)
+│               └── student.html            # Student dashboard (HTML/CSS/JS)
 └── README.md                               # This file
 ```
+
+## UI Architecture (HTML-Based)
+
+This application uses **HTML pages** for the user interface instead of FXML, making it much easier to understand:
+
+- **HTML Files** (`src/main/resources/html/`): Contains the UI layout and embedded CSS styling
+- **JavaScript**: Embedded in HTML files, handles user interactions
+- **JavaFX WebView**: Renders the HTML pages inside the Java desktop application
+- **JavaScript Bridge**: Connects JavaScript in HTML to Java methods
+
+**Example of how it works:**
+1. HTML button calls JavaScript function: `onclick="startSession()"`
+2. JavaScript calls Java method: `window.javaApp.startSession(courseName)`
+3. Java code executes and returns result
+4. JavaScript updates the HTML: `document.getElementById('status').textContent = 'Success!'`
+
+This makes the code very easy to read and modify - if you know HTML/CSS/JS, you can customize the UI!
 
 ## Dependencies
 
